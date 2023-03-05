@@ -48,6 +48,39 @@ Eigen::VectorX<PassiveT> newton_direction(
 }
 
 /**
+ * by T.Kanai
+ */
+template <typename PassiveT>
+bool newton_direction_new(
+        const Eigen::VectorX<PassiveT>& _g,
+        const Eigen::SparseMatrix<PassiveT>& _H_proj,
+        Eigen::VectorX<PassiveT>& dir,
+        LinearSolver<PassiveT>& _solver,
+        const PassiveT& _w_identity = 0.0)
+{
+    const Eigen::SparseMatrix<PassiveT> H_reg = _w_identity * identity<PassiveT>(_g.size()) + _H_proj;
+
+    if (_solver.sparsity_pattern_dirty)
+    {
+        _solver.solver.analyzePattern(H_reg);
+        _solver.sparsity_pattern_dirty = false;
+    }
+
+    _solver.solver.factorize(H_reg);
+    const Eigen::VectorX<PassiveT> d = _solver.solver.solve(-_g);
+
+    if (_solver.solver.info() != Eigen::Success) {
+      //TINYAD_ERROR_throw("Linear solve failed.");
+        return false;
+    }
+
+    //TINYAD_ASSERT_FINITE_MAT(d);
+    dir = d;
+    //return d;
+    return true;
+}
+
+/**
  * Compute update vector d such that x + d performs a Newton step
  * (i.e. minimizes the quadratic approximation at x).
  * Input:

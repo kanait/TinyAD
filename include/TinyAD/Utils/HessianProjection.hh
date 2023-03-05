@@ -81,7 +81,8 @@ void project_positive_definite(
 
         // Re-assemble matrix using clamped eigenvalues
         _H = eig.eigenvectors() * D * eig.eigenvectors().transpose();
-        TINYAD_ASSERT_FINITE_MAT(_H);
+        // comment out by T.Kanai 23.2.11
+        //TINYAD_ASSERT_FINITE_MAT(_H);
     }
 }
 

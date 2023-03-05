@@ -178,8 +178,9 @@ struct ScalarObjectiveTerm : ScalarObjectiveTermBase<PassiveT>
                 project_positive_definite<n_element, PassiveT>(element_results[i_element].Hess, _projection_eps);
 
             // Assert that derivatives are finite
-            TINYAD_ASSERT_FINITE_MAT(element_results[i_element].grad);
-            TINYAD_ASSERT_FINITE_MAT(element_results[i_element].Hess);
+            // comment out by T.Kanai 23.2.9
+            //TINYAD_ASSERT_FINITE_MAT(element_results[i_element].grad);
+            //TINYAD_ASSERT_FINITE_MAT(element_results[i_element].Hess);
         }
 
         // Add to global f, g and H

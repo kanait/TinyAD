@@ -153,6 +153,18 @@ struct ScalarFunction
     Eigen::SparseMatrix<PassiveT> eval_hessian_of_quadratic() const;
 
     /**
+     * by T.Kanai
+     * Evaluate function with gradient and Hessian. (New)
+     * The returned Hessian matrix is positive-definite (via per-element projection).
+     */
+    bool eval_with_hessian_proj_new(
+            const Eigen::VectorX<PassiveT>& _x,
+            PassiveT& _f,
+            Eigen::VectorX<PassiveT>& _g,
+            Eigen::SparseMatrix<PassiveT>& _H_proj,
+            const PassiveT& _projection_eps = default_hessian_projection_eps) const;
+
+    /**
      * Evaluate function with gradient and Hessian.
      * The returned Hessian matrix is positive-definite (via per-element projection).
      */

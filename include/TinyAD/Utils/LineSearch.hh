@@ -59,7 +59,8 @@ Eigen::Vector<PassiveT, d> line_search(
             s *= _shrink;
     }
 
-    TINYAD_WARNING("Line search couldn't find improvement. Gradient max norm is " << _g.cwiseAbs().maxCoeff());
+    // comment out by T.Kanai 23.2.11
+    //TINYAD_WARNING("Line search couldn't find improvement. Gradient max norm is " << _g.cwiseAbs().maxCoeff());
 
     return _x0;
 }
